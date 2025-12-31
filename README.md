@@ -15,7 +15,7 @@ RINet is intended for exploratory protein structure analysis, hypothesis generat
 
 ## Table of Contents
 
-[Motivation and Scope](#motivation-and-scope) |
+[Motivation and Scope](#motivation-and-scope) \newline
 [Conceptual Overview](#conceptual-overview) |
 [Residue Interaction Networks](#residue-interaction-networks) |
 [Graph Construction from Structure](#graph-construction-from-structure) |
