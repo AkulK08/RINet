@@ -210,10 +210,7 @@ For each residue $i$:
 
 1. Seed only residue $i$  
 2. Run forward inference  
-3. Compute a scalar score such as  
-$$
-s_i = \sum_{j=1}^{N} |x^{(i)}_j|
-$$
+3. Compute a scalar score such as $ s_i = \sum_{j=1}^{N} |x^{(i)}_j| $
 
 Residues are ranked by this score. This procedure is deterministic but computationally expensive for large networks.
 
