@@ -90,15 +90,15 @@ All inference modes operate on the same underlying network representation so tha
 
 A residue interaction network is an undirected weighted graph:
 
-$
+$$$$
 G = (V, E)
-$
+$$$$
 
-Each node $v_i \in V$ corresponds to a residue in the protein. Each edge $(i, j) \in E$ represents a geometric contact between residues $i$ and $j$ under an explicit rule. Each edge has a non-negative weight:
+Each node $$$$v_i \in V$$$$ corresponds to a residue in the protein. Each edge $$$$(i, j) \in E$$$$ represents a geometric contact between residues $$$$i$$$$ and $$$$j$$$$ under an explicit rule. Each edge has a non-negative weight:
 
-$
+$$$$
 w_{ij} \ge 0
-$
+$$$$
 
 Weights encode an interaction strength under a chosen deterministic scheme (binary, inverse-distance, exponential decay, or user-defined).
 
@@ -126,49 +126,49 @@ Edges are added according to a configurable contact specification. Common modes 
 **Cα contact mode**  
 An edge is added if the distance between Cα atoms is below a cutoff:
 
-$
+$$$$
 \| \mathbf{r}^{(\alpha)}_i - \mathbf{r}^{(\alpha)}_j \| \le d_{\text{cut}}
-$
+$$$$
 
 This is fast and often sufficient for coarse structural coupling analyses.
 
 **Heavy-atom contact mode**  
 An edge is added if the minimum distance between any pair of heavy atoms across the two residues is below a cutoff:
 
-$
+$$$$
 \min_{a \in \mathcal{A}(i),\; b \in \mathcal{A}(j)} \| \mathbf{r}_{a} - \mathbf{r}_{b} \| \le d_{\text{cut}}
-$
+$$$$
 
 This is more expensive but more biophysically faithful, particularly for dense cores, salt bridges, and side-chain mediated interactions.
 
 ### Edge Weighting
 
-RINet supports deterministic weighting schemes. Let $d_{ij}$ be the contact distance under the selected mode.
+RINet supports deterministic weighting schemes. Let $$$$d_{ij}$$$$ be the contact distance under the selected mode.
 
 **Binary weighting**
-$
+$$$$
 w_{ij} = 1
-$
+$$$$
 
 **Inverse-distance weighting**
-$
+$$$$
 w_{ij} = \frac{1}{d_{ij} + \varepsilon}
-$
+$$$$
 
 **Exponential decay weighting**
-$
+$$$$
 w_{ij} = \exp\left( -\frac{d_{ij}}{\sigma} \right)
-$
+$$$$
 
-Where $\varepsilon > 0$ avoids singularity and $\sigma > 0$ sets the decay length scale.
+Where $$$$\varepsilon > 0$$$$ avoids singularity and $$$$\sigma > 0$$$$ sets the decay length scale.
 
 ### Optional Backbone Connectivity
 
 RINet can enforce sequential connectivity by adding edges between consecutive residues in each chain:
 
-$
+$$$$
 (i, i+1) \in E \quad \text{for consecutive residues in the same chain}
-$
+$$$$
 
 This can improve connectivity in sparse contact regimes and supports certain analyses that require connected components to be stable across parameter sweeps.
 
@@ -180,33 +180,33 @@ This can improve connectivity in sparse contact regimes and supports certain ana
 
 The RIN is represented as a sparse adjacency matrix:
 
-$
+$$$$
 A \in \mathbb{R}^{N \times N}
-$
+$$$$
 
-Where $N$ is the number of residues, and:
+Where $$$$N$$$$ is the number of residues, and:
 
-$
+$$$$
 A_{ij} =
 \begin{cases}
 w_{ij} & \text{if } (i, j) \in E \\
 0      & \text{otherwise}
 \end{cases}
-$
+$$$$
 
 RINet stores matrices in CSR (Compressed Sparse Row) form for efficiency and deterministic iteration order.
 
 The degree matrix is:
 
-$
+$$$$
 D = \mathrm{diag}(d_1, \dots, d_N), \quad d_i = \sum_{j=1}^N A_{ij}
-$
+$$$$
 
 The combinatorial Laplacian is:
 
-$
+$$$$
 L = D - A
-$
+$$$$
 
 ### Operator Families
 
@@ -216,17 +216,17 @@ RINet focuses on explicit linear operators that support step-by-step interpretab
 
 One canonical model is a diffusion/decay equation:
 
-$
+$$$$
 \frac{d x(t)}{dt} = -\alpha x(t) - \beta L x(t)
-$
+$$$$
 
-Where $x(t) \in \mathbb{R}^N$ is a residue influence state, $\alpha \ge 0$ is a decay term, and $\beta \ge 0$ controls coupling strength.
+Where $$$$x(t) \in \mathbb{R}^N$$$$ is a residue influence state, $$$$\alpha \ge 0$$$$ is a decay term, and $$$$\beta \ge 0$$$$ controls coupling strength.
 
 A deterministic explicit Euler discretization gives:
 
-$
+$$$$
 x_{t+1} = x_t + \Delta t \left( -\alpha x_t - \beta L x_t \right)
-$
+$$$$
 
 This is linear, deterministic, and reproducible.
 
@@ -234,17 +234,17 @@ This is linear, deterministic, and reproducible.
 
 A discrete propagation model uses a row-normalized adjacency:
 
-$
+$$$$
 W = D^{-1} A
-$
+$$$$
 
 With update:
 
-$
+$$$$
 x_{t+1} = \rho W x_t
-$
+$$$$
 
-Where $0 < \rho < 1$ attenuates influence at each step.
+Where $$$$0 < \rho < 1$$$$ attenuates influence at each step.
 
 This model emphasizes walk-like propagation along weighted edges.
 
@@ -252,11 +252,11 @@ This model emphasizes walk-like propagation along weighted edges.
 
 Another useful deterministic operator is a resolvent form:
 
-$
+$$$$
 x^\* = \left( I + \lambda L \right)^{-1} s
-$
+$$$$
 
-Where $s$ is a seed vector encoding sources and $\lambda > 0$ controls smoothing/coupling. This is a linear system solve on a sparse symmetric positive semidefinite matrix (with appropriate stabilization for components), yielding a single-shot steady-state coupling profile.
+Where $$$$s$$$$ is a seed vector encoding sources and $$$$\lambda > 0$$$$ controls smoothing/coupling. This is a linear system solve on a sparse symmetric positive semidefinite matrix (with appropriate stabilization for components), yielding a single-shot steady-state coupling profile.
 
 RINet may implement one or more of these families; the design intent is that operator families remain explicit and modular so that each operator is independently inspectable and testable.
 
@@ -270,19 +270,19 @@ RINet provides multiple inference modes built on the same graph representation.
 
 Forward inference answers:
 
-> If I perturb residue(s) $S$, which residues are most affected?
+> If I perturb residue(s) $$$$S$$$$, which residues are most affected?
 
-Construct a seed vector $s$:
+Construct a seed vector $$$$s$$$$:
 
-$
+$$$$
 s_i =
 \begin{cases}
 1 & i \in S \\
 0 & \text{otherwise}
 \end{cases}
-$
+$$$$
 
-Run an operator to compute $x$ (either after $T$ steps or at steady state). The final $x$ is interpreted as a coupling profile. Higher magnitude indicates stronger coupling under the chosen operator.
+Run an operator to compute $$$$x$$$$ (either after $$$$T$$$$ steps or at steady state). The final $$$$x$$$$ is interpreted as a coupling profile. Higher magnitude indicates stronger coupling under the chosen operator.
 
 Forward inference is designed to be interpretable. Each residue score can be traced back to network connectivity, edge weights, and operator parameters.
 
@@ -290,20 +290,20 @@ Forward inference is designed to be interpretable. Each residue score can be tra
 
 Inverse inference answers:
 
-> Which residues could plausibly explain a response observed at a target set $T$?
+> Which residues could plausibly explain a response observed at a target set $$$$T$$$$?
 
 A simple deterministic inverse protocol is:
 
-1. For each candidate source residue $i$, treat $s = e_i$ and compute the response at targets.
+1. For each candidate source residue $$$$i$$$$, treat $$$$s = e_i$$$$ and compute the response at targets.
 2. Score candidate sources by target response magnitude.
 
-For target set $T$, candidate score:
+For target set $$$$T$$$$, candidate score:
 
-$
+$$$$
 \mathrm{score}(i) = \sum_{j \in T} |x^{(i)}_j|
-$
+$$$$
 
-Where $x^{(i)}$ is the coupling profile from source $i$ under the chosen operator.
+Where $$$$x^{(i)}$$$$ is the coupling profile from source $$$$i$$$$ under the chosen operator.
 
 This is computationally heavier than forward inference if done naively for all residues, so RINet supports structured candidate sets and operator-specific accelerations where possible, while keeping the procedure deterministic.
 
@@ -311,21 +311,21 @@ This is computationally heavier than forward inference if done naively for all r
 
 Global scan inference identifies influential edges or residues by systematic perturbation of network elements and measuring deterministic changes in an objective.
 
-One interpretable scan is an edge attenuation scan. For an edge $(i, j)$, define a perturbed adjacency:
+One interpretable scan is an edge attenuation scan. For an edge $$$$(i, j)$$$$, define a perturbed adjacency:
 
-$
+$$$$
 A'_{ij} = \gamma A_{ij}, \quad 0 < \gamma < 1
-$
+$$$$
 
 Run a fixed forward query (or an operator-defined objective) and compute an objective difference:
 
-$
+$$$$
 \Delta S_{ij} = S(A') - S(A)
-$
+$$$$
 
-Where $S(\cdot)$ is a deterministic scalar summary (for example, total mass outside the seed set, or target response magnitude). Edges can be ranked by $|\Delta S_{ij}|$ to identify contacts that strongly control propagation under the operator.
+Where $$$$S(\cdot)$$$$ is a deterministic scalar summary (for example, total mass outside the seed set, or target response magnitude). Edges can be ranked by $$$$|\Delta S_{ij}|$$$$ to identify contacts that strongly control propagation under the operator.
 
-The key property is that this scan is completely specified by $(A, \gamma, S, \text{operator parameters})$ and is fully reproducible.
+The key property is that this scan is completely specified by $$$$(A, \gamma, S, \text{operator parameters})$$$$ and is fully reproducible.
 
 ### Mediator Analysis
 
