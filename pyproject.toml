@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rinet"
+version = "0.1.0"
+description = "AlloGraph/RINet core library (deterministic residue interaction network inference)"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Akul Kumar"}]
+dependencies = []
+
+[project.scripts]
+allograph = "allograph.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "allograph_core"}
+
+[tool.setuptools.packages.find]
+where = ["allograph_core"]
