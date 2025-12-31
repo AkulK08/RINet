@@ -13,7 +13,6 @@ def run_inverse(bundle: GraphBundle, observed: np.ndarray) -> InverseResult:
     """
     Stub-level callable inverse:
     returns correlation-like score between each node basis vector and observed.
-    (This is NOT the final science, but it is deterministic and gives a result.)
     """
     bundle.validate()
     y = np.asarray(observed, dtype=float)
