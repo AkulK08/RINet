@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rinet"
-version = "0.1.2"
-description = "AlloGraph/RINet core library (deterministic residue interaction network inference)"
+version = "0.1.3"
+description = "RINet core library (deterministic residue interaction network inference)"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{name = "Akul Kumar"}]
