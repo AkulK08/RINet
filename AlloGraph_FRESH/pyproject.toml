@@ -12,7 +12,7 @@ authors = [{name = "Akul Kumar"}]
 dependencies = []
 
 [project.scripts]
-allograph = "allograph.cli:main"
+rinet = "allograph.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "allograph_core"}
