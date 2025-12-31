@@ -1,0 +1,85 @@
+from __future__ import annotations
+import sys, time
+import numpy as np
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
+    QTabWidget, QLabel, QPushButton, QTextEdit
+)
+
+from allograph_desktop.app_state import AppState
+from allograph_desktop.controllers import ctrl_make_demo_rin, ctrl_run_forward
+from .plot_panel import PlotPanel
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("RINet")
+        self.resize(1200, 800)
+
+        self.state = AppState()
+
+        root = QWidget()
+        self.setCentralWidget(root)
+        layout = QHBoxLayout(root)
+
+        # ---------- Sidebar ----------
+        sidebar = QVBoxLayout()
+        btn_demo = QPushButton("Create Demo Graph")
+        btn_run = QPushButton("Run Forward")
+
+        btn_demo.clicked.connect(self.on_demo)
+        btn_run.clicked.connect(self.on_run)
+
+        sidebar.addWidget(QLabel("RINet Controls"))
+        sidebar.addWidget(btn_demo)
+        sidebar.addWidget(btn_run)
+        sidebar.addStretch(1)
+
+        # ---------- Tabs ----------
+        self.tabs = QTabWidget()
+
+        self.tab_graph = QWidget()
+        self.tab_network = QWidget()
+        self.tab_logs = QWidget()
+
+        self.tabs.addTab(self.tab_graph, "Graph")
+        self.tabs.addTab(self.tab_network, "Network")
+        self.tabs.addTab(self.tab_logs, "Logs")
+
+        # Graph tab
+        self.plot = PlotPanel()
+        gl = QVBoxLayout()
+        gl.addWidget(self.plot)
+        self.tab_graph.setLayout(gl)
+
+        # Network tab (placeholder, but SAFE)
+        nl = QVBoxLayout()
+        nl.addWidget(QLabel("Network visualization will appear here."))
+        self.tab_network.setLayout(nl)
+
+        # Logs tab
+        self.logs = QTextEdit()
+        self.logs.setReadOnly(True)
+        ll = QVBoxLayout()
+        ll.addWidget(self.logs)
+        self.tab_logs.setLayout(ll)
+
+        layout.addLayout(sidebar, 0)
+        layout.addWidget(self.tabs, 1)
+
+        self.log("RINet ready.")
+
+    def log(self, msg: str):
+        self.logs.append(f"[{time.strftime(%H:%M:%S)}] {msg}")
+
+    def on_demo(self):
+        ctrl_make_demo_rin(self.state)
+        self.log("Demo graph created.")
+
+    def on_run(self):
+        y, meta = ctrl_run_forward(self.state)
+        self.plot.plot_xy(y, title="Forward propagation", ylabel="Signal")
+        self.log("Forward propagation complete.")
