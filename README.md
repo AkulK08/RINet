@@ -15,24 +15,42 @@ RINet is intended for exploratory protein structure analysis, hypothesis generat
 
 ## Table of Contents
 
-[Motivation and Scope](#motivation-and-scope) \newline
-[Conceptual Overview](#conceptual-overview) |
-[Residue Interaction Networks](#residue-interaction-networks) |
-[Graph Construction from Structure](#graph-construction-from-structure) |
-[Mathematical Framework](#mathematical-framework) |
-[Inference Modes](#inference-modes) |
-[Determinism and Reproducibility](#determinism-and-reproducibility) |
-[Software Architecture](#software-architecture) |
-[Python API](#python-api) |
-[Command-Line Usage](#command-line-usage) |
-[Desktop Application](#desktop-application) |
-[Outputs](#outputs) |
-[Validation and Interpretation Guidance](#validation-and-interpretation-guidance) |
-[Limitations](#limitations) |
-[Intended Use Cases](#intended-use-cases) |
-[Installation](#installation) |
-[Contributing](#contributing) |
-[Citation](#citation) |
+[Motivation and Scope](#motivation-and-scope)
+
+[Conceptual Overview](#conceptual-overview) 
+
+[Residue Interaction Networks](#residue-interaction-networks) 
+
+[Graph Construction from Structure](#graph-construction-from-structure) 
+
+[Mathematical Framework](#mathematical-framework) 
+
+[Inference Modes](#inference-modes) 
+
+[Determinism and Reproducibility](#determinism-and-reproducibility) 
+
+[Software Architecture](#software-architecture) 
+
+[Python API](#python-api) 
+
+[Command-Line Usage](#command-line-usage) 
+
+[Desktop Application](#desktop-application) 
+
+[Outputs](#outputs) 
+
+[Validation and Interpretation Guidance](#validation-and-interpretation-guidance) 
+
+[Limitations](#limitations) 
+
+[Intended Use Cases](#intended-use-cases) 
+
+[Installation](#installation) 
+
+[Contributing](#contributing) 
+
+[Citation](#citation) 
+
 [License](#license)
 
 ---
