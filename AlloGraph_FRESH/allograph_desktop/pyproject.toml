@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "allograph-desktop"
+version = "0.1.0"
+description = "AlloGraph desktop GUI (PySide6)"
+requires-python = ">=3.10"
+dependencies = [
+  "PySide6>=6.6",
+  "matplotlib>=3.7",
+  "numpy>=1.23",
+  "allograph==0.1.0",
+]
+
+[project.scripts]
+allograph-desktop = "allograph_desktop.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["allograph_desktop*"]
