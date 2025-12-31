@@ -536,11 +536,6 @@ RINet targets Python 3.9+ (recommended). The backend uses standard scientific Py
 # Backend Library
 
 For development installs:
-```python
-python -m pip install -e .
-```
-
-Or if the project is packaged as separate components:
 
 ```python
 python -m pip install -e rinet_core
