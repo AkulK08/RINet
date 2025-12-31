@@ -28,12 +28,12 @@ jobs:
 
       - name: Build package
         run: |
-          cd allograph_fresh
+          cd AlloGraph_FRESH
           python -m build
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: allograph_fresh/dist
+          packages-dir: AlloGraph_FRESH/dist
 
 
